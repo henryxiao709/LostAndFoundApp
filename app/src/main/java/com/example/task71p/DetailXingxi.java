@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,15 +24,10 @@ public class DetailXingxi extends AppCompatActivity {
 
         //Find he  id of the/ChaZhao ID
         nameVMinziV = (TextView) findVBIDChaZhaoID(R.id.name_view);
-        //Find th  id of the/ChaZhao ID
         phoneVDianHua = (TextView) findVBIDChaZhaoID(R.id.phone_view);
-        //Find the  id of the/ChaZhao ID
         descriptionVMiaoShu = (TextView) findVBIDChaZhaoID(R.id.description_view);
-        //Find the  id of the/Chahao ID
         dateVRiQi = (TextView) findVBIDChaZhaoID(R.id.date_view);
-        //Find he  id of the/ChaZhao ID
         locationVDiDian = (TextView) findVBIDChaZhaoID(R.id.location_view);
-        //Find the  id of the/CaZhao ID
         removeBYiChuAnNiu = (Button) findVBIDChaZhaoID(R.id.remove_button);
 
         Intent intent = getIntent();
@@ -61,13 +57,33 @@ public class DetailXingxi extends AppCompatActivity {
             String phoneDianHua = cursorZhiZhen.getString(cursorZhiZhen.getColumnIndexOrThrow(DatabaseShuJuKuHelper.ItemEntry.COLUMN_PHONE));
             String descriptionMiaoShu = cursorZhiZhen.getString(cursorZhiZhen.getColumnIndexOrThrow(DatabaseShuJuKuHelper.ItemEntry.COLUMN_DESCRIPTION));
             String dateRiQi = cursorZhiZhen.getString(cursorZhiZhen.getColumnIndexOrThrow(DatabaseShuJuKuHelper.ItemEntry.COLUMN_DATE));
-            String locationDiDian = cursorZhiZhen.getString(cursorZhiZhen.getColumnIndexOrThrow(DatabaseShuJuKuHelper.ItemEntry.COLUMN_LOCATION));
+
+            double longitudeJingDu = cursorZhiZhen.getDouble(cursorZhiZhen.getColumnIndexOrThrow(DatabaseShuJuKuHelper.ItemEntry.COLUMN_LONGITUDE));
+            double latitudeWeiDu = cursorZhiZhen.getDouble(cursorZhiZhen.getColumnIndexOrThrow(DatabaseShuJuKuHelper.ItemEntry.COLUMN_LATITUDE));
+
+            String strLongitudeJingDu = Location.convert(longitudeJingDu, Location.FORMAT_SECONDS);
+            String strLatitudeWeiDu = Location.convert(latitudeWeiDu, Location.FORMAT_SECONDS);
+
+            strLongitudeJingDu = strLongitudeJingDu.replaceFirst(":", "°");
+            strLongitudeJingDu = strLongitudeJingDu.replaceFirst(":", "'");
+            strLongitudeJingDu += "\"";
+
+            strLatitudeWeiDu = strLatitudeWeiDu.replaceFirst(":", "°");
+            strLatitudeWeiDu = strLatitudeWeiDu.replaceFirst(":", "'");
+            strLatitudeWeiDu += "\"";
+
+            String longitudeHemisphereJingDuBanQiu = longitudeJingDu > 0 ? "E" : "W";
+            String latitudeHemisphereWeiDuBanQiu = latitudeWeiDu > 0 ? "N" : "S";
+
+            strLongitudeJingDu += " " + longitudeHemisphereJingDuBanQiu;
+            strLatitudeWeiDu += " " + latitudeHemisphereWeiDuBanQiu;
 
             nameVMinziV.setText(nameMingZi);
             phoneVDianHua.setText(phoneDianHua);
             descriptionVMiaoShu.setText(descriptionMiaoShu);
             dateVRiQi.setText(dateRiQi);
-            locationVDiDian.setText(locationDiDian);
+
+            locationVDiDian.setText(strLongitudeJingDu + ", " + strLatitudeWeiDu);
 
             removeBYiChuAnNiu.setOnClickListener(new View.OnClickListener() {
                 @Override

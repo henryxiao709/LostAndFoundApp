@@ -9,7 +9,7 @@ public class DatabaseShuJuKuHelper extends SQLiteOpenHelper {
 
     static final String DATABASE_NAME = "lostandfound.db";
 
-    static final int DATABASE_VERSION = 1;
+    static final int DATABASE_VERSION = 2;
 
     static final class ItemEntry implements BaseColumns {
         static final String TABLE_NAME = "items";
@@ -19,7 +19,8 @@ public class DatabaseShuJuKuHelper extends SQLiteOpenHelper {
         static final String COLUMN_PHONE = "phone";
         static final String COLUMN_DESCRIPTION = "description";
         static final String COLUMN_DATE = "date";
-        static final String COLUMN_LOCATION = "location";
+        static final String COLUMN_LONGITUDE = "longitude"; //Added a column for longitude
+        static final String COLUMN_LATITUDE = "latitude"; //Added a column for latitude
     }
 
     public DatabaseShuJuKuHelper(Context context) {
@@ -34,7 +35,8 @@ public class DatabaseShuJuKuHelper extends SQLiteOpenHelper {
                 + ItemEntry.COLUMN_PHONE + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_DATE + " TEXT NOT NULL, "
-                + ItemEntry.COLUMN_LOCATION + " TEXT NOT NULL);";
+                + ItemEntry.COLUMN_LONGITUDE + " REAL NOT NULL,"  //Added a column for longitude with REAL data type
+                + ItemEntry.COLUMN_LATITUDE + " REAL NOT NULL);";  //Added a column for latitude with REAL data type
 
         dbShuJuKu.execSQL(SQL_CREATE_TABLE);
     }

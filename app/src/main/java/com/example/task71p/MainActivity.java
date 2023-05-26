@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button createBChunAnNiu, showBZhanShiAnNiu;
+    Button createBChunAnNiu, showBZhanShiAnNiu, mapBZhanShiDiTuAnNiu; //Added a button for showing the map
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         createBChunAnNiu = (Button) findVBIDChaZhaoID(R.id.create_button);
         //find ID/Cha Zhao ID
         showBZhanShiAnNiu = (Button) findVBIDChaZhaoID(R.id.show_button);
+        //find ID/Cha Zhao ID
+        mapBZhanShiDiTuAnNiu = (Button) findVBIDChaZhaoID(R.id.show_map); //Find the ID of the map button
 
         createBChunAnNiu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
                 // Go to show all lost and found items
                 Intent intentZhanShiBaoGao = new Intent(MainActivity.this, ShowAcBaoGao.class);
                 startActivity(intentZhanShiBaoGao);
+            }
+        });
+
+        mapBZhanShiDiTuAnNiu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Go to show all lost and found items on the map
+                Intent intentZhanShiDiTu = new Intent(MainActivity.this, MapAcDiTu.class); //Create an intent for the map activity
+                startActivity(intentZhanShiDiTu);
             }
         });
     }
